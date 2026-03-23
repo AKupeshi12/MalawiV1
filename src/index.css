@@ -1,0 +1,136 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #0d0d0d;
+  --color-bg2: #161616;
+  --color-bg3: #1e1e1e;
+  --color-bg4: #252525;
+  --color-border: #2a2a2a;
+  --color-border2: #333;
+  --color-text-main: #f0ede6;
+  --color-text2: #a09b91;
+  --color-text3: #5a5550;
+  --color-teal: #1D9E75;
+  --color-teal-light: #e1f5ee;
+  --color-teal-dim: #0a3d2e;
+  --color-blue: #378ADD;
+  --color-blue-dim: #0c2a4a;
+  --color-amber: #BA7517;
+  --color-amber-dim: #3d2600;
+  --color-coral: #D85A30;
+  --color-coral-dim: #3d1a0a;
+  --color-purple: #7F77DD;
+
+  --font-syne: "Syne", sans-serif;
+  --font-dm: "DM Sans", sans-serif;
+}
+
+@layer base {
+  :root {
+    --r: 12px;
+    --r2: 8px;
+  }
+
+  body {
+    @apply bg-bg text-text-main font-dm min-h-screen overflow-x-hidden;
+  }
+
+  h1, h2, h3, .display {
+    @apply font-syne;
+  }
+}
+
+@layer components {
+  .nav-link {
+    @apply flex items-center gap-[10px] px-5 py-[0.65rem] text-[13px] text-text2 cursor-pointer transition-all duration-150 border-l-2 border-transparent font-dm;
+  }
+  .nav-link:hover {
+    @apply text-text-main bg-bg3;
+  }
+  .nav-link.active {
+    @apply text-text-main bg-bg3 border-l-teal;
+  }
+
+  .page {
+    @apply hidden p-8 md:p-14 max-w-[900px];
+  }
+  .page.active {
+    @apply block;
+  }
+
+  .card {
+    @apply bg-bg2 border border-border rounded-[var(--r)] p-5 mb-[10px];
+  }
+  .card.teal { @apply border-l-3 border-l-teal; }
+  .card.blue { @apply border-l-3 border-l-blue; }
+  .card.amber { @apply border-l-3 border-l-amber; }
+  .card.coral { @apply border-l-3 border-l-coral; }
+
+  .quote {
+    @apply bg-bg3 border-l-3 border-l-teal rounded-r-[var(--r2)] p-4 mb-4;
+  }
+
+  .stat {
+    @apply bg-bg3 rounded-[var(--r2)] p-4;
+  }
+
+  .pf {
+    @apply bg-bg3 border border-border rounded-[var(--r2)] p-3 text-center;
+  }
+
+  .tl-item {
+    @apply mb-6 relative;
+  }
+  .tl-dot {
+    @apply w-3 h-3 rounded-full absolute -left-[1.7rem] top-[3px] border-2 border-bg;
+  }
+
+  .check-box {
+    @apply w-5 h-5 rounded-md border-[1.5px] border-border2 bg-transparent cursor-pointer shrink-0 flex items-center justify-center mt-[1px] transition-all duration-150;
+  }
+  .check-box.checked {
+    @apply bg-teal border-teal;
+  }
+  .check-box.checked::after {
+    content: '✓';
+    @apply text-white text-[12px] font-semibold;
+  }
+
+  .rung {
+    @apply bg-bg2 border border-border rounded-[var(--r)] p-4 flex gap-[14px] cursor-pointer transition-colors duration-200;
+  }
+  .rung:hover { @apply border-border2; }
+  .rung.current { @apply border-teal bg-teal-dim; }
+  .rung.done { @apply border-border opacity-50; }
+
+  .script-box {
+    @apply bg-bg3 border border-border rounded-[var(--r2)] p-4 relative mb-[10px];
+  }
+
+  .lead-input {
+    @apply bg-bg3 border border-border rounded-[var(--r2)] px-3 py-2 text-[13px] text-text-main flex-1 min-w-[120px] font-dm focus:outline-none focus:border-teal;
+  }
+
+  .btn {
+    @apply bg-teal text-white border-none rounded-[var(--r2)] px-4 py-2 text-[13px] font-medium cursor-pointer font-dm transition-opacity duration-150 hover:opacity-85;
+  }
+
+  .btn-ghost {
+    @apply bg-transparent text-text2 border border-border rounded-[var(--r2)] px-4 py-2 text-[13px] cursor-pointer font-dm transition-all duration-150 hover:border-border2 hover:text-text-main;
+  }
+
+  .status-pill {
+    @apply text-[11px] font-medium px-2 py-[2px] rounded-full;
+  }
+
+  .home-card {
+    @apply bg-bg2 border border-border rounded-[var(--r)] p-[1.1rem] cursor-pointer transition-colors duration-200 hover:border-teal;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #0d0d0d; }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+
+input[type=range] { accent-color: #1D9E75; }
