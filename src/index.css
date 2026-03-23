@@ -52,14 +52,21 @@
   }
 
   .page {
-    @apply hidden p-8 md:p-14 max-w-[900px];
+    @apply p-5 md:p-14 max-w-[900px] w-full mx-auto;
   }
   .page.active {
     @apply block;
   }
 
+  .ring-wrap {
+    @apply flex flex-col sm:flex-row items-center gap-4 bg-bg2 border border-border rounded-[var(--r)] p-5 mb-5;
+  }
+
+  .pflow {
+    @apply grid grid-cols-1 sm:grid-cols-5 gap-[10px] my-4;
+  }
   .card {
-    @apply bg-bg2 border border-border rounded-[var(--r)] p-5 mb-[10px];
+    @apply bg-bg2 border border-border rounded-[var(--r)] p-4 sm:p-5 mb-[10px];
   }
   .card.teal { @apply border-l-3 border-l-teal; }
   .card.blue { @apply border-l-3 border-l-blue; }
@@ -67,7 +74,7 @@
   .card.coral { @apply border-l-3 border-l-coral; }
 
   .quote {
-    @apply bg-bg3 border-l-3 border-l-teal rounded-r-[var(--r2)] p-4 mb-4;
+    @apply bg-bg3 border-l-3 border-l-teal rounded-r-[var(--r2)] p-3 sm:p-4 mb-4;
   }
 
   .stat {
@@ -82,7 +89,7 @@
     @apply mb-6 relative;
   }
   .tl-dot {
-    @apply w-3 h-3 rounded-full absolute -left-[1.7rem] top-[3px] border-2 border-bg;
+    @apply w-3 h-3 rounded-full absolute -left-[25px] top-[4px] border-2 border-bg;
   }
 
   .check-box {
@@ -97,11 +104,15 @@
   }
 
   .rung {
-    @apply bg-bg2 border border-border rounded-[var(--r)] p-4 flex gap-[14px] cursor-pointer transition-colors duration-200;
+    @apply bg-bg2 border border-border rounded-[var(--r)] p-4 flex gap-3 sm:gap-[14px] cursor-pointer transition-colors duration-200;
   }
   .rung:hover { @apply border-border2; }
   .rung.current { @apply border-teal bg-teal-dim; }
   .rung.done { @apply border-border opacity-50; }
+
+  .rung-num {
+    @apply font-syne text-[22px] sm:text-[28px] font-extrabold min-w-[30px] sm:min-w-[36px];
+  }
 
   .script-box {
     @apply bg-bg3 border border-border rounded-[var(--r2)] p-4 relative mb-[10px];

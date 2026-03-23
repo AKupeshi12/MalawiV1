@@ -94,7 +94,7 @@ export function MilestoneItem({ id, checked, onToggle, color, title, body, tag }
 export function Rung({ num, id, current, open, onToggle, title, body, detail }: { num: string, id: string, current: boolean, open: boolean, onToggle: () => void, title: string, body: string, detail: string }) {
   return (
     <div className={`rung ${current ? 'current' : ''} ${open ? 'open' : ''}`} onClick={onToggle}>
-      <div className={`rung-num font-syne text-[28px] font-extrabold min-w-[36px] ${current ? 'text-teal' : 'text-text3'}`}>{num}</div>
+      <div className={`rung-num ${current ? 'text-teal' : 'text-text3'}`}>{num}</div>
       <div>
         <div className="rung-title text-[14px] font-medium text-text-main mb-1">{title}</div>
         <div className="rung-body text-[13px] text-text2 leading-relaxed">{body}</div>

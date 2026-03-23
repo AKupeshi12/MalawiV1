@@ -13,7 +13,8 @@ import {
   Layout, 
   DollarSign, 
   X, 
-  ArrowDown
+  ArrowDown,
+  Menu
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
@@ -61,6 +62,7 @@ interface IncomeEntry {
 
 export default function App() {
   const [activePage, setActivePage] = useState<PageId>('home');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [checks, setChecks] = useState<Record<string, boolean>>({});
   const [milestones, setMilestones] = useState<Record<string, boolean>>({});
   const [leads, setLeads] = useState<Lead[]>([]);
@@ -221,20 +223,44 @@ export default function App() {
 
   return (
     <div className="shell flex min-h-screen">
+      {/* MOBILE HEADER */}
+      <header className="md:hidden fixed top-0 left-0 right-0 bg-bg2 border-b border-border z-[110] p-4 flex justify-between items-center h-[60px]">
+        <div className="logo-title font-syne text-[14px] font-extrabold text-text-main tracking-tight">My Malawi Playbook</div>
+        <button onClick={() => setSidebarOpen(true)} className="text-text2 p-2">
+          <Menu size={20} />
+        </button>
+      </header>
+
+      {/* MOBILE SIDEBAR BACKDROP */}
+      <AnimatePresence>
+        {sidebarOpen && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="md:hidden fixed inset-0 bg-black/60 z-[115] backdrop-blur-sm"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
+      </AnimatePresence>
+
       {/* SIDEBAR */}
-      <nav className="sidebar w-[240px] bg-bg2 border-r border-border fixed top-0 left-0 h-screen overflow-y-auto z-100 flex flex-col transition-transform duration-300 ease-in-out md:translate-x-0 -translate-x-full">
+      <nav className={`sidebar w-[240px] bg-bg2 border-r border-border fixed top-0 left-0 h-screen overflow-y-auto z-[120] flex flex-col transition-transform duration-300 ease-in-out md:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <button onClick={() => setSidebarOpen(false)} className="md:hidden absolute top-4 right-4 text-text3 p-2">
+          <X size={20} />
+        </button>
         <div className="logo p-6 border-b border-border">
           <div className="logo-title font-syne text-[16px] font-extrabold text-text-main tracking-tight">My Malawi Playbook</div>
           <div className="logo-sub text-[11px] text-text3 mt-1">Young entrepreneur · Mzuzu</div>
         </div>
         <div className="nav-links py-3 flex-1">
-          <NavLink id="home" active={activePage === 'home'} onClick={() => setActivePage('home')} icon={<Home className="nav-icon" />} label="Dashboard" />
-          <NavLink id="foundation" active={activePage === 'foundation'} onClick={() => setActivePage('foundation')} icon={<Info className="nav-icon" />} label="Foundation" />
-          <NavLink id="seed" active={activePage === 'seed'} onClick={() => setActivePage('seed')} icon={<Sprout className="nav-icon" />} label="Your Seed" />
-          <NavLink id="customers" active={activePage === 'customers'} onClick={() => setActivePage('customers')} icon={<Users className="nav-icon" />} label="Find Customers" />
-          <NavLink id="plan" active={activePage === 'plan'} onClick={() => setActivePage('plan')} icon={<Calendar className="nav-icon" />} label="Day 1 Plan" />
-          <NavLink id="assets" active={activePage === 'assets'} onClick={() => setActivePage('assets')} icon={<Layout className="nav-icon" />} label="Asset Ladder" />
-          <NavLink id="numbers" active={activePage === 'numbers'} onClick={() => setActivePage('numbers')} icon={<DollarSign className="nav-icon" />} label="The Numbers" />
+          <NavLink id="home" active={activePage === 'home'} onClick={() => { setActivePage('home'); setSidebarOpen(false); }} icon={<Home className="nav-icon" />} label="Dashboard" />
+          <NavLink id="foundation" active={activePage === 'foundation'} onClick={() => { setActivePage('foundation'); setSidebarOpen(false); }} icon={<Info className="nav-icon" />} label="Foundation" />
+          <NavLink id="seed" active={activePage === 'seed'} onClick={() => { setActivePage('seed'); setSidebarOpen(false); }} icon={<Sprout className="nav-icon" />} label="Your Seed" />
+          <NavLink id="customers" active={activePage === 'customers'} onClick={() => { setActivePage('customers'); setSidebarOpen(false); }} icon={<Users className="nav-icon" />} label="Find Customers" />
+          <NavLink id="plan" active={activePage === 'plan'} onClick={() => { setActivePage('plan'); setSidebarOpen(false); }} icon={<Calendar className="nav-icon" />} label="Day 1 Plan" />
+          <NavLink id="assets" active={activePage === 'assets'} onClick={() => { setActivePage('assets'); setSidebarOpen(false); }} icon={<Layout className="nav-icon" />} label="Asset Ladder" />
+          <NavLink id="numbers" active={activePage === 'numbers'} onClick={() => { setActivePage('numbers'); setSidebarOpen(false); }} icon={<DollarSign className="nav-icon" />} label="The Numbers" />
         </div>
         <div className="sidebar-quote p-5 border-t border-border text-[11px] text-text3 leading-relaxed italic">
           {sidebarQuote}
@@ -242,7 +268,7 @@ export default function App() {
       </nav>
 
       {/* MAIN CONTENT */}
-      <main className="main md:ml-[240px] flex-1 min-h-screen pb-20 md:pb-0">
+      <main className="main md:ml-[240px] flex-1 min-h-screen pb-[100px] md:pb-0 pt-[60px] md:pt-0">
         <AnimatePresence mode="wait">
           <motion.div
             key={activePage}
@@ -255,10 +281,10 @@ export default function App() {
             {activePage === 'home' && (
               <>
                 <div className="page-header mb-8">
-                  <h1 className="text-[28px] font-extrabold tracking-tight leading-tight">Your entrepreneurship playbook</h1>
+                  <h1 className="text-[24px] md:text-[28px] font-extrabold tracking-tight leading-tight">Your entrepreneurship playbook</h1>
                   <p className="text-[14px] text-text2 mt-2 leading-relaxed">Everything you need to go from PC + phone to land ownership in Malawi. Saved right here, accessible anywhere.</p>
                 </div>
-                <div className="ring-wrap flex items-center gap-4 bg-bg2 border border-border rounded-[var(--r)] p-5 mb-5">
+                <div className="ring-wrap">
                   <svg className="ring-svg shrink-0" width="72" height="72" viewBox="0 0 72 72">
                     <circle cx="36" cy="36" r="28" fill="none" stroke="#1e1e1e" strokeWidth="8"/>
                     <circle 
@@ -295,7 +321,7 @@ export default function App() {
             {activePage === 'foundation' && (
               <>
                 <div className="page-header mb-8">
-                  <h1 className="text-[28px] font-extrabold tracking-tight leading-tight">The Foundation</h1>
+                  <h1 className="text-[24px] md:text-[28px] font-extrabold tracking-tight leading-tight">The Foundation</h1>
                   <p className="text-[14px] text-text2 mt-2 leading-relaxed">Three teachers, one truth. Vision applied through management builds wealth.</p>
                 </div>
                 <div className="section-label text-[10px] font-semibold tracking-widest text-text3 uppercase mb-3">Three anchoring principles</div>
@@ -325,7 +351,7 @@ export default function App() {
             {activePage === 'seed' && (
               <>
                 <div className="page-header mb-8">
-                  <h1 className="text-[28px] font-extrabold tracking-tight leading-tight">Your Seed</h1>
+                  <h1 className="text-[24px] md:text-[28px] font-extrabold tracking-tight leading-tight">Your Seed</h1>
                   <p className="text-[14px] text-text2 mt-2 leading-relaxed">The idea that won't leave you alone is your business. Find it. Refine it. Produce fruit from it.</p>
                 </div>
                 <Quote text={<><strong>"Your seed is the idea that won't let you go. Every problem is a business. One man sees bare feet — another sees a shoe company."</strong></>} source="— Dr. Myles Munroe" />
@@ -362,7 +388,7 @@ export default function App() {
             {activePage === 'customers' && (
               <>
                 <div className="page-header mb-8">
-                  <h1 className="text-[28px] font-extrabold tracking-tight leading-tight">Find Customers</h1>
+                  <h1 className="text-[24px] md:text-[28px] font-extrabold tracking-tight leading-tight">Find Customers</h1>
                   <p className="text-[14px] text-text2 mt-2 leading-relaxed">PC + phone only. Four channels, all starting today, all free.</p>
                 </div>
                 <div className="stat-row grid grid-cols-1 sm:grid-cols-3 gap-[10px] mb-6">
@@ -389,10 +415,10 @@ export default function App() {
                 <Card color="amber" title="The free audit post — publish this today" body="Search &quot;lodges near Mzuzu&quot; on Google. Take screenshots. Note who is missing. Post those screenshots with the caption: &quot;I searched for lodges in northern Malawi today. Here is what I found — and who I didn't find. If your lodge is invisible, you are giving bookings to competitors for free. I am offering 3 free audits this week. DM me your lodge name.&quot;" />
                 <hr className="divider border-none border-t border-border my-7" />
                 <div className="section-label text-[10px] font-semibold tracking-widest text-text3 uppercase mb-3">Lead tracker</div>
-                <div className="lead-form flex gap-2 mb-4 flex-wrap">
-                  <input className="lead-input" value={leadName} onChange={e => setLeadName(e.target.value)} placeholder="Lodge / contact name" />
-                  <input className="lead-input" value={leadContact} onChange={e => setLeadContact(e.target.value)} placeholder="Phone / WhatsApp" />
-                  <select className="bg-bg3 border border-border text-text-main rounded-[var(--r2)] px-3 py-2 text-[13px] font-dm focus:outline-none focus:border-teal" value={leadStatus} onChange={e => setLeadStatus(e.target.value)}>
+                <div className="lead-form flex flex-col sm:flex-row gap-2 mb-4">
+                  <input className="lead-input w-full sm:w-auto" value={leadName} onChange={e => setLeadName(e.target.value)} placeholder="Lodge / contact name" />
+                  <input className="lead-input w-full sm:w-auto" value={leadContact} onChange={e => setLeadContact(e.target.value)} placeholder="Phone / WhatsApp" />
+                  <select className="bg-bg3 border border-border text-text-main rounded-[var(--r2)] px-3 py-2 text-[13px] font-dm focus:outline-none focus:border-teal w-full sm:w-auto" value={leadStatus} onChange={e => setLeadStatus(e.target.value)}>
                     <option>Contacted</option>
                     <option>Audit sent</option>
                     <option>Proposal made</option>
@@ -465,7 +491,7 @@ export default function App() {
             {activePage === 'assets' && (
               <>
                 <div className="page-header mb-8">
-                  <h1 className="text-[28px] font-extrabold tracking-tight leading-tight">Asset Ladder</h1>
+                  <h1 className="text-[24px] md:text-[28px] font-extrabold tracking-tight leading-tight">Asset Ladder</h1>
                   <p className="text-[14px] text-text2 mt-2 leading-relaxed">From PC to land. Five rungs. Tap each to expand. Mark your current rung.</p>
                 </div>
                 <Quote text={<><strong>"The only heritage the Bible teaches as generational heritage is real estate. You are not wealthy until you own land."</strong></>} source="— Dr. Myles Munroe" />
@@ -503,7 +529,7 @@ export default function App() {
             {activePage === 'numbers' && (
               <>
                 <div className="page-header mb-8">
-                  <h1 className="text-[28px] font-extrabold tracking-tight leading-tight">The Numbers</h1>
+                  <h1 className="text-[24px] md:text-[28px] font-extrabold tracking-tight leading-tight">The Numbers</h1>
                   <p className="text-[14px] text-text2 mt-2 leading-relaxed">Two numbers separate businesses that make you rich from ones that just keep you busy: margin and recurring revenue.</p>
                 </div>
                 <Quote text={<><strong>"How much cash can I actually take out of this business every year? Not revenue. Not EBITDA on a spreadsheet. Real cash."</strong></>} source="— Boring Businesses Video" />
